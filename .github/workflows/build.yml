@@ -1,0 +1,36 @@
+name: Build ViOS libc
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib nasm make
+
+      - name: Build library
+        run: |
+          make clean
+          make
+
+      - name: Run tests (if available)
+        run: |
+          # TODO: Add tests when implemented
+          echo "Tests not yet implemented"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vios-libc-build
+          path: build/
+          retention-days: 7
