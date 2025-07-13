@@ -100,6 +100,6 @@ jobs:
         with:
           name: ViOS-Libc-Release
           path: |
-            "ViOS Libc.zip"
+            ViOS-Libc.zip
             ViOS-Libc.tar.gz
           retention-days: 90

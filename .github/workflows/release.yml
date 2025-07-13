@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +65,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            "ViOS Libc.zip"
+            ViOS-Libc.zip
             ViOS-Libc.tar.gz
             build/libViOSlibc.a
             README.md
