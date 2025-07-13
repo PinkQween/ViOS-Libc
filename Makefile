@@ -40,12 +40,11 @@ build/%.o: %.asm
 
 install: all
 	mkdir -p $(PREFIX)/lib
+	mkdir -p $(PREFIX)/include
 	cp $(LIB_PATH) $(PREFIX)/lib/
 
 	@echo "Installing headers..."
-	find include -type f -name '*.h' | while read hdr; do \
-		install -Dm644 "$$hdr" "$(PREFIX)/include/$${hdr#include/}"; \
-	done
+	cp -r include/* $(PREFIX)/include/
 
 clean:
 	rm -rf build
