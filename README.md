@@ -1,8 +1,36 @@
 # ViOS libc
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-[![Build Libc](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml)
-[![Build OS](https://github.com/PinkQween/ViOS/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS/actions/workflows/build.yml)
+> 🔧 The custom C standard library built for ViOS  
+> 🧪 Lightweight, educational, and tightly integrated with the ViOS kernel
+
+---
+
+## 📊 Repository Stats
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Platform: x86_32](https://img.shields.io/badge/Platform-x86_32-blue)](#)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/PinkQween/ViOS-Libc)
+![Files in Repo](https://img.shields.io/github/directory-file-count/PinkQween/ViOS-Libc?type=file)
+![Last Commit](https://img.shields.io/github/last-commit/PinkQween/ViOS-Libc)
+![Release](https://img.shields.io/github/v/release/PinkQween/ViOS-Libc)
+![Downloads](https://img.shields.io/github/downloads/PinkQween/ViOS-Libc/total)
+
+---
+
+## 🔧 Build Status
+
+[![Build: Libc](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml)
+[![Build: OS (ViOS)](https://github.com/PinkQween/ViOS/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS/actions/workflows/build.yml)
+
+---
+
+## 🧠 Community and Contribution
+
+![GitHub Discussions](https://img.shields.io/github/discussions/PinkQween/ViOS-Libc)
+![Forks](https://img.shields.io/github/forks/PinkQween/ViOS-Libc?style=social)
+![Commit Activity](https://img.shields.io/github/commit-activity/w/PinkQween/ViOS-Libc)
+![Total Issues](https://img.shields.io/github/issues-closed-raw/PinkQween/ViOS-Libc?label=total%20issues&color=blue)
+![Total PRs](https://img.shields.io/github/issues-pr-closed-raw/PinkQween/ViOS-Libc?label=total%20PRs&color=blue)
 [![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/pinkqween/ViOS/releases)
 
 A C standard library implementation for the ViOS operating system.
