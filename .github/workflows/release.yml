@@ -53,12 +53,10 @@ jobs:
           find release_package/include/ -type f
           echo "=== Lib directory ==="
           ls -la release_package/lib/
-
-          # Create zip file
-          zip -r "ViOS-Libc.zip" release_package/
-
-          # Create tar.gz file
-          tar -czf "ViOS-Libc.tar.gz" -C release_package .
+          
+          
+          zip -r "ViOS-Libc.zip" ViOS/
+          tar -czf "ViOS-Libc.tar.gz" ViOS/
 
           # Show file sizes
           echo "=== Package sizes ==="
