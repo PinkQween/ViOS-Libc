@@ -3,24 +3,39 @@
 
 #include <stdint.h>
 
+// Forward declarations for structures defined in ViOS.h
+struct process_arguments;
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-// System command definitions
-#define SYSTEM_COMMAND0_EXIT 0
-#define SYSTEM_COMMAND1_PROCESS_LOAD_START 1
-#define SYSTEM_COMMAND2_INVOKE_SYSTEM_COMMAND 2
-#define SYSTEM_COMMAND3_GETKEY 3
-#define SYSTEM_COMMAND4_PUTCHAR 4
-#define SYSTEM_COMMAND5_PRINT_SERIAL 5
-#define SYSTEM_COMMAND6_PRINT_CHAR_SERIAL 6
-#define SYSTEM_COMMAND7_MALLOC 7
-#define SYSTEM_COMMAND8_FREE 8
-#define SYSTEM_COMMAND9_READ 9
-#define SYSTEM_COMMAND10_SLEEP 10
-#define SYSTEM_COMMAND11_GET_PROGRAM_ARGUMENTS 11
+    // System command definitions
+    enum SystemCommands
+    {
+        // Process Management (0-2)
+        SYSTEM_COMMAND0_EXIT,
+        SYSTEM_COMMAND1_PROCESS_LOAD_START,
+        SYSTEM_COMMAND2_INVOKE_SYSTEM_COMMAND,
+
+        // I/O Operations (3-6)
+        SYSTEM_COMMAND3_GETKEY,
+        SYSTEM_COMMAND4_PUTCHAR_SERIAL,
+        SYSTEM_COMMAND5_PRINT_SERIAL,
+        BLANK_COMMAND6,
+
+        // Memory Management (7-8)
+        SYSTEM_COMMAND7_MALLOC,
+        SYSTEM_COMMAND8_FREE,
+
+        // File Operations (9)
+        SYSTEM_COMMAND9_READ,
+
+        // System Utilities (10-11)
+        SYSTEM_COMMAND10_SLEEP,
+        SYSTEM_COMMAND11_GET_PROGRAM_ARGUMENTS,
+    };
 
     // Process Management
     void vios_sys_exit(int code);
@@ -31,7 +46,6 @@ extern "C"
     int vios_sys_getkey(void);
     void vios_sys_putchar(char c);
     void vios_sys_serial_print(const char *str);
-    void vios_sys_serial_print_char(char c);
 
     // Memory Management
     void *vios_sys_malloc(uint32_t size);
@@ -42,7 +56,7 @@ extern "C"
 
     // System Utilities
     void vios_sys_sleep(uint32_t milliseconds);
-    char *vios_sys_get_program_arguments(void);
+    void vios_sys_get_program_arguments(struct process_arguments *arguments);
 
 #ifdef __cplusplus
 }

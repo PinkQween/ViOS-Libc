@@ -6,7 +6,7 @@ AS            := nasm
 CFLAGS        := -ffreestanding -nostdlib -O2 -Wall -Wextra -Iinclude -Isrc
 NASMFLAGS     := -f elf
 
-SRC_C         := $(wildcard src/*.c) $(wildcard src/ViOS/*.c)
+SRC_C         := $(wildcard src/*.c) $(wildcard src/ViOS/*.c) $(wildcard crt/*.c)
 SRC_S         := $(wildcard crt/*.s)
 SRC_ASM       := $(wildcard crt/*.asm)
 

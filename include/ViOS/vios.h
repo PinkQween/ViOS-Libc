@@ -3,6 +3,18 @@
 
 #include "syscall.h"
 
+struct command_argument
+{
+    char argument[512];
+    struct command_argument *next;
+};
+
+struct process_arguments
+{
+    int argc;
+    char **argv;
+};
+
 // ViOS-specific constants and definitions
 #define VIOS_VERSION "0.0.1"
 
@@ -42,6 +54,9 @@ extern "C"
     const char *vios_get_version(void);
     int vios_get_error_code(void);
     void vios_clear_error(void);
+
+    // C startup function
+    void c_start(void);
 
 #ifdef __cplusplus
 }

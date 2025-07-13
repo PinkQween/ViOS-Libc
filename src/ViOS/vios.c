@@ -1,7 +1,10 @@
-#include "ViOS/vios.h"
+#include "ViOS/ViOS.h"
 
 // Global error code storage
 static int vios_last_error = VIOS_SUCCESS;
+
+// External main function declaration
+extern int main(int argc, char **argv);
 
 const char *vios_get_version(void)
 {
@@ -22,4 +25,4 @@ void vios_clear_error(void)
 void vios_set_error(int error_code)
 {
     vios_last_error = error_code;
-} 
+}

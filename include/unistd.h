@@ -21,6 +21,17 @@ extern "C"
     unsigned int sleep(unsigned int seconds);
     int usleep(unsigned int usec);
 
+    // Path utilities (no syscalls needed)
+    char *getcwd(char *buf, unsigned int size);
+    int chdir(const char *path);
+    char *basename(char *path);
+    char *dirname(char *path);
+
+    // Environment utilities (no syscalls needed)
+    char *getenv(const char *name);
+    int setenv(const char *name, const char *value, int overwrite);
+    int unsetenv(const char *name);
+
 #ifdef __cplusplus
 }
 #endif

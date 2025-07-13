@@ -1,8 +1,17 @@
 #include "ViOS/syscall.h"
+#include "ViOS/ViOS.h"
+
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
 
 // Process Management
 void vios_sys_exit(int code)
 {
+    vios_sys_serial_print("DEBUG: vios_sys_exit called with code: ");
+    // ... print the code ...
+    vios_sys_serial_print("\n");
+
     __asm__ volatile(
         "int $0x80"
         :
@@ -45,7 +54,7 @@ void vios_sys_putchar(char c)
     __asm__ volatile(
         "int $0x80"
         :
-        : "a"(SYSTEM_COMMAND4_PUTCHAR), "b"(c));
+        : "a"(SYSTEM_COMMAND4_PUTCHAR_SERIAL), "b"(c));
 }
 
 void vios_sys_serial_print(const char *str)
@@ -54,14 +63,6 @@ void vios_sys_serial_print(const char *str)
         "int $0x80"
         :
         : "a"(SYSTEM_COMMAND5_PRINT_SERIAL), "b"(str));
-}
-
-void vios_sys_serial_print_char(char c)
-{
-    __asm__ volatile(
-        "int $0x80"
-        :
-        : "a"(SYSTEM_COMMAND6_PRINT_CHAR_SERIAL), "b"(c));
 }
 
 // Memory Management
@@ -103,12 +104,13 @@ void vios_sys_sleep(uint32_t milliseconds)
         : "a"(SYSTEM_COMMAND10_SLEEP), "b"(milliseconds));
 }
 
-char *vios_sys_get_program_arguments(void)
+void vios_sys_get_program_arguments(struct process_arguments *arguments)
 {
-    char *result;
-    __asm__ volatile(
-        "int $0x80"
-        : "=a"(result)
-        : "a"(SYSTEM_COMMAND11_GET_PROGRAM_ARGUMENTS));
-    return result;
+    // TODO: Implement argument retrieval from system
+    // For now, this is a placeholder implementation
+    if (arguments)
+    {
+        arguments->argc = 0;
+        arguments->argv = NULL;
+    }
 }
