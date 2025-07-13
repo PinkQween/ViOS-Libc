@@ -1,7 +1,8 @@
 # ViOS libc
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-![Build](https://img.shields.io/badge/Build-Passing-brightgreen)
+[![Build Libc](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml)
+[![Build OS](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml)
 [![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/pinkqween/ViOS/releases)
 
 A C standard library implementation for the ViOS operating system.

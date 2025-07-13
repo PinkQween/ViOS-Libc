@@ -1,4 +1,4 @@
-name: Build ViOS libc
+name: Build Libc
 
 on:
   push:
