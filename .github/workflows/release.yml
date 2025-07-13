@@ -3,34 +3,73 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y gcc-multilib nasm make
-    
-    - name: Build library
-      run: |
-        make clean
-        make
-    
-    - name: Create release
-      uses: softprops/action-gh-release@v2
-      with:
-        files: |
-          build/libViOSlibc.a
-          README.md
-          LICENSE
-        generate_release_notes: true
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies and cross-compiler
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y build-essential gcc-multilib g++-multilib nasm wget bison flex
+
+          wget https://github.com/lordmilko/i686-elf-tools/releases/download/13.2.0/i686-elf-tools-linux.zip
+          unzip i686-elf-tools-linux.zip -d i686-elf-tools
+          sudo mv i686-elf-tools /usr/local/i686-elf-tools
+          sudo ln -sf /usr/local/i686-elf-tools/bin/* /usr/local/bin/
+
+          i686-elf-gcc --version
+          i686-elf-ld --version
+          nasm -v
+
+      - name: Build library
+        run: |
+          make clean
+          make
+
+      - name: Create release packages
+        run: |
+          # Create a temporary directory for packaging
+          mkdir -p release_package
+
+          # Copy the library file
+          cp build/libViOSlibc.a release_package/
+
+          # Copy all header files with folder structure preserved
+          cp -r include/ release_package/
+
+          # List what we're packaging
+          echo "=== Release package contents ==="
+          ls -la release_package/
+          echo "=== Include directory structure ==="
+          find release_package/include/ -type f
+
+          # Create zip file
+          zip -r "ViOS Libc.zip" release_package/
+
+          # Create tar.gz file
+          tar -czf "ViOS-Libc.tar.gz" -C release_package .
+
+          # Show file sizes
+          echo "=== Package sizes ==="
+          ls -lh "ViOS Libc.zip" "ViOS-Libc.tar.gz"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            "ViOS Libc.zip"
+            ViOS-Libc.tar.gz
+            build/libViOSlibc.a
+            README.md
+            LICENSE
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
