@@ -36,25 +36,24 @@ jobs:
 
       - name: Create release packages
         run: |
-          # Create package structure matching /opt/ViOS
+          # Create ViOS structure
           mkdir -p release_package/include
           mkdir -p release_package/lib
 
-          # Copy the library file to lib/
+          # Copy files
           cp build/libViOSlibc.a release_package/lib/
-
-          # Copy all header files with folder structure preserved
           cp -r include/* release_package/include/
 
-          # List what we're packaging
-          echo "=== Release package contents ==="
-          ls -la release_package/
+          # Rename release_package to ViOS
+          mv release_package ViOS
+
+          # List final structure
           echo "=== Include directory structure ==="
-          find release_package/include/ -type f
+          find ViOS/include/ -type f
           echo "=== Lib directory ==="
-          ls -la release_package/lib/
-          
-          
+          ls -la ViOS/lib/
+
+          # Create zip and tar.gz with ViOS/ at the root
           zip -r "ViOS-Libc.zip" ViOS/
           tar -czf "ViOS-Libc.tar.gz" ViOS/
 
