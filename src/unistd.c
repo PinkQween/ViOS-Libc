@@ -13,34 +13,34 @@ int fork(void)
     return -1;
 }
 
-int execve(const char *pathname, char *const argv[], char *const envp[])
+int execve(const char *pathname, char *const argv[] __attribute__((unused)), char *const envp[] __attribute__((unused)))
 {
     // Use the process load start syscall
     return vios_sys_process_load_start(pathname);
 }
 
 // File operations
-int read(int fd, void *buf, unsigned int count)
+int read(int fd __attribute__((unused)), void *buf __attribute__((unused)), unsigned int count __attribute__((unused)))
 {
     // TODO: Implement file descriptor based reading
     // For now, return error
     return -1;
 }
 
-int write(int fd, const void *buf, unsigned int count)
+int write(int fd __attribute__((unused)), const void *buf __attribute__((unused)), unsigned int count __attribute__((unused)))
 {
     // TODO: Implement file descriptor based writing
     // For now, return error
     return -1;
 }
 
-int close(int fd)
+int close(int fd __attribute__((unused)))
 {
     // TODO: Implement file descriptor closing
     return -1;
 }
 
-int open(const char *pathname, int flags)
+int open(const char *pathname __attribute__((unused)), int flags __attribute__((unused)))
 {
     // TODO: Implement file opening
     return -1;

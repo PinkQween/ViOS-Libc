@@ -1,4 +1,4 @@
-#include "vios.h"
+#include "ViOS/vios.h"
 
 // Global error code storage
 static int vios_last_error = VIOS_SUCCESS;
