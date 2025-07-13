@@ -1,8 +1,8 @@
 # ViOS libc
 
-[![Build Status](https://github.com/yourusername/vios-libc/workflows/Build%20ViOS%20libc/badge.svg)](https://github.com/yourusername/vios-libc/actions)
+[![Build Status](https://github.com/pinkqween/ViOS/workflows/Build%20ViOS%20libc/badge.svg)](https://github.com/pinkqween/ViOS/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/yourusername/vios-libc/releases)
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/pinkqween/ViOS/releases)
 
 A C standard library implementation for the ViOS operating system.
 
@@ -83,8 +83,8 @@ This will create a static library `libViOSlibc.a` in the `build/` directory.
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vios-libc.git
-cd vios-libc
+git clone https://github.com/pinkqween/ViOS.git
+cd ViOS
 
 # Build the library
 make
@@ -140,6 +140,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Support
 
 - 📖 [Documentation](README.md)
-- 🐛 [Report a Bug](https://github.com/yourusername/vios-libc/issues/new?template=bug_report.md)
-- 💡 [Request a Feature](https://github.com/yourusername/vios-libc/issues/new?template=feature_request.md)
-- 💬 [Discussions](https://github.com/yourusername/vios-libc/discussions) 
+- 🐛 [Report a Bug](https://github.com/pinkqween/ViOS/issues/new?template=bug_report.md)
+- 💡 [Request a Feature](https://github.com/pinkqween/ViOS/issues/new?template=feature_request.md)
+- 💬 [Discussions](https://github.com/pinkqween/ViOS/discussions) 
