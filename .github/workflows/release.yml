@@ -36,30 +36,33 @@ jobs:
 
       - name: Create release packages
         run: |
-          # Create a temporary directory for packaging
-          mkdir -p release_package
+          # Create package structure matching /opt/ViOS
+          mkdir -p release_package/include
+          mkdir -p release_package/lib
 
-          # Copy the library file
-          cp build/libViOSlibc.a release_package/
+          # Copy the library file to lib/
+          cp build/libViOSlibc.a release_package/lib/
 
           # Copy all header files with folder structure preserved
-          cp -r include/ release_package/
+          cp -r include/* release_package/include/
 
           # List what we're packaging
           echo "=== Release package contents ==="
           ls -la release_package/
           echo "=== Include directory structure ==="
           find release_package/include/ -type f
+          echo "=== Lib directory ==="
+          ls -la release_package/lib/
 
           # Create zip file
-          zip -r "ViOS Libc.zip" release_package/
+          zip -r "ViOS-Libc.zip" release_package/
 
           # Create tar.gz file
           tar -czf "ViOS-Libc.tar.gz" -C release_package .
 
           # Show file sizes
           echo "=== Package sizes ==="
-          ls -lh "ViOS Libc.zip" "ViOS-Libc.tar.gz"
+          ls -lh "ViOS-Libc.zip" "ViOS-Libc.tar.gz"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
@@ -67,9 +70,6 @@ jobs:
           files: |
             ViOS-Libc.zip
             ViOS-Libc.tar.gz
-            build/libViOSlibc.a
-            README.md
-            LICENSE
           generate_release_notes: true
           draft: false
           prerelease: false
