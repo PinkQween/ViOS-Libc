@@ -1,5 +1,5 @@
 #include "stdlib.h"
-#include "ViOS/syscall.h"
+#include <ViOS/syscall.h>
 
 #ifndef NULL
 #define NULL ((void *)0)

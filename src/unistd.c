@@ -2,7 +2,7 @@
 #include "string.h"
 #include "stdlib.h"
 #include "stdio.h"
-#include "ViOS/syscall.h"
+#include <ViOS/syscall.h>
 
 #ifndef NULL
 #define NULL ((void *)0)

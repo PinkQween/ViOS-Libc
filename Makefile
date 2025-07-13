@@ -17,13 +17,7 @@ OBJ_ASM       := $(patsubst %.asm, build/%.o, $(SRC_ASM))
 LIB_NAME      := libViOSlibc.a
 LIB_PATH      := build/$(LIB_NAME)
 
-all: prepare_headers $(LIB_PATH)
-
-prepare_headers:
-	@mkdir -p src/ViOS
-	@mkdir -p src/sys
-	@cp include/ViOS/*.h src/ViOS/ 2>/dev/null || true
-	@cp include/sys/*.h src/sys/ 2>/dev/null || true
+all: $(LIB_PATH)
 
 # Create static library
 $(LIB_PATH): $(OBJ_C) $(OBJ_S) $(OBJ_ASM)
@@ -54,5 +48,3 @@ install: all
 
 clean:
 	rm -rf build
-	rm -f src/ViOS/*.h
-	rm -f src/sys/*.h

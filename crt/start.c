@@ -1,5 +1,5 @@
-#include "ViOS/syscall.h"
-#include "ViOS/ViOS.h"
+#include <ViOS/syscall.h>
+#include <ViOS/ViOS.h>
 
 extern int main(int argc, char **argv);
 
