@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include <stdarg.h>
 #include <ViOS/syscall.h>
 
 #ifndef NULL
@@ -77,18 +78,18 @@ int printf(const char *fmt, ...)
     if (fmt == NULL)
         return 0;
 
-    int count = 0;
+    // Use a temporary buffer to build the complete output string
+    char buffer[1024]; // Adjust size as needed
+    int pos = 0;
     const char *p = fmt;
+    va_list args;
+    va_start(args, fmt);
 
-    // Simple va_list simulation for basic varargs
-    char **arg_ptr = (char **)&fmt + 1;
-
-    while (*p)
+    while (*p && pos < 1023) // Leave space for null terminator
     {
         if (*p != '%')
         {
-            vios_sys_putchar(*p);
-            count++;
+            buffer[pos++] = *p;
             p++;
             continue;
         }
@@ -99,51 +100,112 @@ int printf(const char *fmt, ...)
         {
         case 'd':
         case 'i':
-            print_number(*(int *)arg_ptr);
-            arg_ptr++;
-            count++;
+        {
+            char *num_str = itoa(va_arg(args, int));
+            while (*num_str && pos < 1023)
+            {
+                buffer[pos++] = *num_str++;
+            }
             break;
+        }
 
         case 'u':
-            print_unsigned(*(unsigned int *)arg_ptr);
-            arg_ptr++;
-            count++;
+        {
+            unsigned int num = va_arg(args, unsigned int);
+            char str[16];
+            int i = 0;
+            
+            if (num == 0)
+            {
+                if (pos < 1023) buffer[pos++] = '0';
+            }
+            else
+            {
+                while (num > 0 && i < 15)
+                {
+                    str[i++] = '0' + (num % 10);
+                    num /= 10;
+                }
+                while (--i >= 0 && pos < 1023)
+                {
+                    buffer[pos++] = str[i];
+                }
+            }
             break;
+        }
 
         case 'x':
         case 'X':
-            print_hex(*(unsigned int *)arg_ptr);
-            arg_ptr++;
-            count++;
+        {
+            unsigned int num = va_arg(args, unsigned int);
+            char hex_str[16];
+            int i = 0;
+            
+            if (num == 0)
+            {
+                if (pos < 1023) buffer[pos++] = '0';
+            }
+            else
+            {
+                while (num > 0 && i < 15)
+                {
+                    int digit = num & 0xF;
+                    hex_str[i++] = (digit < 10) ? '0' + digit : 'a' + (digit - 10);
+                    num >>= 4;
+                }
+                while (--i >= 0 && pos < 1023)
+                {
+                    buffer[pos++] = hex_str[i];
+                }
+            }
             break;
+        }
 
         case 's':
-            print_string(*(char **)arg_ptr);
-            arg_ptr++;
-            count++;
+        {
+            char *str = va_arg(args, char*);
+            if (str != NULL)
+            {
+                while (*str && pos < 1023)
+                {
+                    buffer[pos++] = *str++;
+                }
+            }
             break;
+        }
 
         case 'c':
-            vios_sys_putchar(*(char *)arg_ptr);
-            arg_ptr++;
-            count++;
+            if (pos < 1023)
+            {
+                buffer[pos++] = (char)va_arg(args, int);
+            }
             break;
 
         case '%':
-            vios_sys_putchar('%');
-            count++;
+            if (pos < 1023)
+            {
+                buffer[pos++] = '%';
+            }
             break;
 
         default:
-            vios_sys_putchar('%');
-            vios_sys_putchar(*p);
-            count += 2;
+            if (pos < 1022) // Need space for both characters
+            {
+                buffer[pos++] = '%';
+                buffer[pos++] = *p;
+            }
             break;
         }
         p++;
     }
 
-    return count;
+    buffer[pos] = '\0';
+    va_end(args);
+
+    // Use the more reliable string-based syscall
+    vios_sys_serial_print(buffer);
+    
+    return pos;
 }
 
 int sprintf(char *str, const char *fmt, ...)

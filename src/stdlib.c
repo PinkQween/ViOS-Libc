@@ -51,7 +51,13 @@ int atoi(const char *str)
 
 char *itoa(int i)
 {
-    static char text[12];
+    // Use multiple static buffers to reduce conflicts between calls
+    static char text_buffers[4][12];
+    static int buffer_index = 0;
+    
+    char *text = text_buffers[buffer_index];
+    buffer_index = (buffer_index + 1) % 4;
+    
     int loc = 11;
     text[11] = 0;
     char neg = 1;

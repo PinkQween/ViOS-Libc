@@ -1,116 +1,110 @@
-#include <ViOS/syscall.h>
 #include <ViOS/ViOS.h>
 
 #ifndef NULL
 #define NULL ((void *)0)
 #endif
 
+// Generic syscall wrapper: passes up to N arguments using the stack
+static inline int vios_syscallN(uint32_t syscall_number, uint32_t *args, uint32_t argc)
+{
+    for (int i = argc; i > 0; i--)
+    {
+        __asm__ volatile("push %0" ::"r"(args[i - 1]));
+    }
+
+    int result;
+    __asm__ volatile(
+        "mov %[num], %%eax\n"
+        "int $0x80\n"
+        : "=a"(result)
+        : [num] "r"(syscall_number)
+        : "memory");
+
+    __asm__ volatile("add %0, %%esp" ::"r"(argc * 4));
+    return result;
+}
+
+// ───────────────────────────────────────────────
 // Process Management
+// ───────────────────────────────────────────────
+
 void vios_sys_exit(int code)
 {
-    vios_sys_serial_print("DEBUG: vios_sys_exit called with code: ");
-    // ... print the code ...
-    vios_sys_serial_print("\n");
-
-    __asm__ volatile(
-        "int $0x80"
-        :
-        : "a"(SYSTEM_COMMAND0_EXIT), "b"(code));
+    uint32_t args[] = {(uint32_t)code};
+    vios_syscallN(SYSTEM_COMMAND0_EXIT, args, 1);
 }
 
 int vios_sys_process_load_start(const char *filename)
 {
-    int result;
-    __asm__ volatile(
-        "int $0x80"
-        : "=a"(result)
-        : "a"(SYSTEM_COMMAND1_PROCESS_LOAD_START), "b"(filename));
-    return result;
+    uint32_t args[] = {(uint32_t)filename};
+    return vios_syscallN(SYSTEM_COMMAND1_PROCESS_LOAD_START, args, 1);
 }
 
-int vios_sys_invoke_system_command(int command, void *args)
+int vios_sys_invoke_system_command(int command, void *args_ptr)
 {
-    int result;
-    __asm__ volatile(
-        "int $0x80"
-        : "=a"(result)
-        : "a"(SYSTEM_COMMAND2_INVOKE_SYSTEM_COMMAND), "b"(command), "c"(args));
-    return result;
+    uint32_t args[] = {(uint32_t)command, (uint32_t)args_ptr};
+    return vios_syscallN(SYSTEM_COMMAND2_INVOKE_SYSTEM_COMMAND, args, 2);
 }
 
+// ───────────────────────────────────────────────
 // I/O Operations
+// ───────────────────────────────────────────────
+
 int vios_sys_getkey(void)
 {
-    int key;
-    __asm__ volatile(
-        "int $0x80"
-        : "=a"(key)
-        : "a"(SYSTEM_COMMAND3_GETKEY));
-    return key;
+    return vios_syscallN(SYSTEM_COMMAND3_GETKEY, NULL, 0);
 }
 
 void vios_sys_putchar(char c)
 {
-    __asm__ volatile(
-        "int $0x80"
-        :
-        : "a"(SYSTEM_COMMAND4_PUTCHAR_SERIAL), "b"(c));
+    uint32_t args[] = {(uint32_t)(uint8_t)c};
+    vios_syscallN(SYSTEM_COMMAND4_PUTCHAR_SERIAL, args, 1);
 }
 
 void vios_sys_serial_print(const char *str)
 {
-    __asm__ volatile(
-        "int $0x80"
-        :
-        : "a"(SYSTEM_COMMAND5_PRINT_SERIAL), "b"(str));
+    uint32_t args[] = {(uint32_t)str};
+    vios_syscallN(SYSTEM_COMMAND5_PRINT_SERIAL, args, 1);
 }
 
+// ───────────────────────────────────────────────
 // Memory Management
+// ───────────────────────────────────────────────
+
 void *vios_sys_malloc(uint32_t size)
 {
-    void *result;
-    __asm__ volatile(
-        "int $0x80"
-        : "=a"(result)
-        : "a"(SYSTEM_COMMAND7_MALLOC), "b"(size));
-    return result;
+    uint32_t args[] = {size};
+    return (void *)vios_syscallN(SYSTEM_COMMAND7_MALLOC, args, 1);
 }
 
 void vios_sys_free(void *ptr)
 {
-    __asm__ volatile(
-        "int $0x80"
-        :
-        : "a"(SYSTEM_COMMAND8_FREE), "b"(ptr));
+    uint32_t args[] = {(uint32_t)ptr};
+    vios_syscallN(SYSTEM_COMMAND8_FREE, args, 1);
 }
 
+// ───────────────────────────────────────────────
 // File Operations
+// ───────────────────────────────────────────────
+
 int vios_sys_read(const char *filename, void *buffer, uint32_t size)
 {
-    int result;
-    __asm__ volatile(
-        "int $0x80"
-        : "=a"(result)
-        : "a"(SYSTEM_COMMAND9_READ), "b"(filename), "c"(buffer), "d"(size));
-    return result;
+    uint32_t args[] = {(uint32_t)filename, (uint32_t)buffer, size};
+    return vios_syscallN(SYSTEM_COMMAND9_READ, args, 3);
 }
 
+// ───────────────────────────────────────────────
 // System Utilities
+// ───────────────────────────────────────────────
+
 void vios_sys_sleep(uint32_t milliseconds)
 {
-    __asm__ volatile(
-        "int $0x80"
-        :
-        : "a"(SYSTEM_COMMAND10_SLEEP), "b"(milliseconds));
+    uint32_t args[] = {milliseconds};
+    vios_syscallN(SYSTEM_COMMAND10_SLEEP, args, 1);
 }
 
 void vios_sys_get_program_arguments(struct process_arguments *arguments)
 {
-    // TODO: Implement argument retrieval from system
-    // For now, this is a placeholder implementation
-    if (arguments)
-    {
-        arguments->argc = 0;
-        arguments->argv = NULL;
-    }
+    uint32_t args[] = {(uint32_t)arguments};
+    vios_syscallN(SYSTEM_COMMAND11_GET_PROGRAM_ARGUMENTS, args, 1);
 }
