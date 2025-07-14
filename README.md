@@ -8,18 +8,27 @@
 ## 📊 Repository Stats
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: x86_32](https://img.shields.io/badge/Platform-x86_32-blue)](#)
 ![GitHub Repo Size](https://img.shields.io/github/repo-size/PinkQween/ViOS-Libc)
 ![Files in Repo](https://img.shields.io/github/directory-file-count/PinkQween/ViOS-Libc?type=file)
 ![Last Commit](https://img.shields.io/github/last-commit/PinkQween/ViOS-Libc)
-![Release](https://img.shields.io/github/v/release/PinkQween/ViOS-Libc)
 ![Downloads](https://img.shields.io/github/downloads/PinkQween/ViOS-Libc/total)
+
+---
+
+### ViOS Toolchain Versions
+
+The following components are versioned together and must be used in compatible versions:
+
+![GitHub Release](https://img.shields.io/github/v/release/pinkqween/vios-libc?label=Libc%20Version)
+![GitHub Release](https://img.shields.io/github/v/release/pinkqween/vios-binutils?label=Binutils%20Version)
+![GitHub Release](https://img.shields.io/github/v/release/pinkqween/vios?label=ViOS%20Version)
 
 ---
 
 ## 🔧 Build Status
 
 [![Build: Libc](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml)
+[![Build: Binutils](https://github.com/PinkQween/ViOS-Libc/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS-binutils/actions/workflows/build.yml)
 [![Build: OS (ViOS)](https://github.com/PinkQween/ViOS/actions/workflows/build.yml/badge.svg)](https://github.com/PinkQween/ViOS/actions/workflows/build.yml)
 
 ---
